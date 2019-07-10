@@ -15,7 +15,7 @@ screens_js_1.default.startup().then(async () => {
     await screens_js_1.default.import("packages", __dirname, async (path) => await Promise.resolve().then(() => __importStar(require("./" + path))));
     await screens_js_1.default.init();
     console.log("init complete");
-    screens_js_1.default.CoreHttp.register(/^\/$/, async function (req, resp) {
-        await this.me.UIRender.component(screens_js_1.default.Example);
+    screens_js_1.default.CoreHttp.register(/^\/$/, async function (me) {
+        await me.UIRender.component(screens_js_1.default.Example);
     });
 });
