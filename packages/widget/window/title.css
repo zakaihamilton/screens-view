@@ -1,0 +1,10 @@
+.widget-window-title {
+    display: flex;
+    border-bottom: 1px solid black;
+    background-color: lightgray;
+}
+
+.widget-window-title-label {
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+}

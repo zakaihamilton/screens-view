@@ -16,6 +16,6 @@ screens_js_1.default.startup().then(async () => {
     await screens_js_1.default.init();
     console.log("init complete");
     screens_js_1.default.CoreHttp.register(/^\/$/, async function (me) {
-        await me.UIRender.component("Example");
+        await me.UIRender.component("AppMain");
     });
 });
