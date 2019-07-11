@@ -5,6 +5,6 @@ screens.startup().then(async () => {
     await screens.init();
     console.log("init complete");
     screens.CoreHttp.register(/^\/$/, async function (me: any) {
-        await me.UIRender.component(screens.Example);
+        await me.UIRender.component("Example");
     });
 });
