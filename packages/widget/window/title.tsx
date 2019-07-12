@@ -9,7 +9,7 @@ screens.WidgetWindowTitle = function ({ label, maximizeState }: { label: string,
             <WidgetWindowTitle.Maximize maximizeState={maximizeState}></WidgetWindowTitle.Maximize>
         </div>
     );
-}
+};
 
 screens.WidgetWindowTitle.Label = function ({ label }: { label: string }) {
     return (
@@ -17,7 +17,7 @@ screens.WidgetWindowTitle.Label = function ({ label }: { label: string }) {
             {label}
         </div>
     );
-}
+};
 
 screens.WidgetWindowTitle.Maximize = function ({ maximizeState, label }: { label: string, maximizeState: any }) {
     let classes = "widget-window-title-maximize";
@@ -29,4 +29,4 @@ screens.WidgetWindowTitle.Maximize = function ({ maximizeState, label }: { label
             {label}
         </div>
     );
-}
+};

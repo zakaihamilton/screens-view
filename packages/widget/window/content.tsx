@@ -7,4 +7,4 @@ screens.WidgetWindowContent = function ({ children }: { children: string }) {
             {children}
         </div>
     );
-}
+};

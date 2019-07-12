@@ -7,7 +7,7 @@ let useMaximize = function (defaultValue: boolean) {
         setValue(!value);
     };
     return { value, setValue, toggle }
-}
+};
 
 screens.WidgetWindow = function ({ title, maximize, children }: { title: string, maximize: boolean, children: any }) {
     const { WidgetWindowTitle, WidgetWindowContent } = screens;
@@ -22,4 +22,4 @@ screens.WidgetWindow = function ({ title, maximize, children }: { title: string,
             <WidgetWindowContent>{children}</WidgetWindowContent>
         </div>
     );
-}
+};

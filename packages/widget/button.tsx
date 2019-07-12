@@ -8,7 +8,7 @@ screens.WidgetButton = function ({ label }: { label: string }) {
             <WidgetButton.Label label={label}></WidgetButton.Label>
         </div>
     );
-}
+};
 
 screens.WidgetButton.Label = function ({ label }: { label: string }) {
     return (
@@ -16,4 +16,4 @@ screens.WidgetButton.Label = function ({ label }: { label: string }) {
             {label}
         </div>
     );
-}
+};
