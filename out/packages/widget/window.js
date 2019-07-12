@@ -12,7 +12,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const screens_js_1 = __importDefault(require("screens-js"));
 const react_1 = __importStar(require("react"));
-let useMaximize = function (defaultValue) {
+let useValue = function (defaultValue) {
     const [value, setValue] = react_1.useState(defaultValue);
     const toggle = () => {
         setValue(!value);
@@ -21,7 +21,7 @@ let useMaximize = function (defaultValue) {
 };
 screens_js_1.default.WidgetWindow = function ({ title, maximize, children }) {
     const { WidgetWindowTitle, WidgetWindowContent } = screens_js_1.default;
-    const maximizeState = useMaximize(false);
+    const maximizeState = useValue(false);
     let classes = "widget-window";
     if (maximizeState.value) {
         classes += " maximize";
