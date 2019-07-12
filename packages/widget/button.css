@@ -10,6 +10,7 @@
     padding: 6px;
     align-self: flex-start;
     outline: 1px solid transparent;
+    font-size: 16px;
 }
 
 .widget-button:hover {

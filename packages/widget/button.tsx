@@ -2,15 +2,15 @@ import screens from "screens-js"
 import React, { useState } from 'react';
 
 screens.WidgetButton = function ({ label }: { label: string }) {
-    const { WidgetButtonLabel } = screens;
+    const { WidgetButton } = screens;
     return (
         <div className="widget-button">
-            <WidgetButtonLabel label={label}></WidgetButtonLabel>
+            <WidgetButton.Label label={label}></WidgetButton.Label>
         </div>
     );
 }
 
-screens.WidgetButtonLabel = function ({ label }: { label: string }) {
+screens.WidgetButton.Label = function ({ label }: { label: string }) {
     return (
         <div className="widget-button-label">
             {label}

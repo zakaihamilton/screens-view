@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const screens_js_1 = __importDefault(require("screens-js"));
 const react_1 = __importDefault(require("react"));
 screens_js_1.default.WidgetButton = function ({ label }) {
-    const { WidgetButtonLabel } = screens_js_1.default;
+    const { WidgetButton } = screens_js_1.default;
     return (react_1.default.createElement("div", { className: "widget-button" },
-        react_1.default.createElement(WidgetButtonLabel, { label: label })));
+        react_1.default.createElement(WidgetButton.Label, { label: label })));
 };
-screens_js_1.default.WidgetButtonLabel = function ({ label }) {
+screens_js_1.default.WidgetButton.Label = function ({ label }) {
     return (react_1.default.createElement("div", { className: "widget-button-label" }, label));
 };
