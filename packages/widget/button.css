@@ -1,0 +1,27 @@
+.widget-button {
+    position: relative;
+    display: flex;
+    border: 1px solid black;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    background-color: white;
+    margin: 6px;
+    padding: 6px;
+    align-self: flex-start;
+    outline: 1px solid transparent;
+}
+
+.widget-button:hover {
+    background-color: lightblue;
+}
+
+.widget-button:hover:active {
+    outline: 1px solid black;
+}
+
+.widget-button-label {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    user-select: none;
+}

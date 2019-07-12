@@ -2,10 +2,10 @@ import screens from "screens-js"
 import React, { useState } from 'react';
 
 screens.AppMain = function () {
-    let { WidgetWindow } = screens;
+    let { WidgetWindow, WidgetButton } = screens;
     return (
         <WidgetWindow title="This is the title">
-            <div>This is an example text</div>
+            <WidgetButton label="Button text"></WidgetButton>
         </WidgetWindow>
     );
 }
