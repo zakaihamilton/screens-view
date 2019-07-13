@@ -8,16 +8,17 @@ const react_1 = __importDefault(require("react"));
 screens_js_1.default.WidgetWindowTitle = function ({ label, maximizeState }) {
     const { WidgetWindowTitle } = screens_js_1.default;
     return (react_1.default.createElement("div", { className: "widget-window-title" },
-        react_1.default.createElement(WidgetWindowTitle.Label, { label: label }),
+        react_1.default.createElement(WidgetWindowTitle.Label, { maximizeState: maximizeState, label: label }),
         react_1.default.createElement(WidgetWindowTitle.Maximize, { maximizeState: maximizeState })));
 };
-screens_js_1.default.WidgetWindowTitle.Label = function ({ label }) {
-    return (react_1.default.createElement("div", { className: "widget-window-title-label" }, label));
+screens_js_1.default.WidgetWindowTitle.Label = function ({ maximizeState, label }) {
+    const { ReactUtil } = screens_js_1.default;
+    let classes = ReactUtil.classes({ "widget-window-title-label": true, "maximize": maximizeState.value });
+    return (react_1.default.createElement("div", { className: classes }, label));
 };
 screens_js_1.default.WidgetWindowTitle.Maximize = function ({ maximizeState, label }) {
-    let classes = "widget-window-title-maximize";
-    if (maximizeState.value) {
-        classes += " maximize";
-    }
-    return (react_1.default.createElement("div", { className: classes, onClick: maximizeState.toggle }, label));
+    const { ReactUtil } = screens_js_1.default;
+    let classes = ReactUtil.classes({ "widget-window-title-maximize": true, "maximize": maximizeState.value });
+    let title = maximizeState.value ? "Restore" : "Maximize";
+    return (react_1.default.createElement("div", { className: classes, title: title, onClick: maximizeState.toggle }, label));
 };
