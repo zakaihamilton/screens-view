@@ -1,5 +1,5 @@
 import screens from "screens-js"
-import { useState } from 'react';
+import React, { useState, useRef, Children } from 'react';
 
 screens.ReactUtil = function () {
 
@@ -24,6 +24,69 @@ screens.ReactUtil.init = function () {
             })
         }
         return fields;
+    };
+    this.createFields = function (component: any, fields: any) {
+        for (let key in fields) {
+            let defaultValue = fields[key];
+            component[key] = React.createContext(defaultValue);
+        }
+        component.fields = (defaults: any): any => {
+            const ref: any = useRef(null);
+            const [counter, setCounter] = useState(0);
+            let object: any = ref.current;
+            if (object) {
+                for (let key in defaults) {
+                    if (object[key].prev !== object[key].value) {
+                        let value = object[key].prev = object[key].value;
+                        object[key].context = [value, object[key].setValue, { key }];
+                    }
+                }
+            }
+            else {
+                ref.current = object = {};
+                for (let key in fields) {
+                    let currentValue = defaults[key];
+                    if (typeof currentValue === "undefined") {
+                        currentValue = fields[key];
+                    }
+                    const setValue = (value: any) => {
+                        if (Object.is(object[key].value, value)) {
+                            return;
+                        }
+                        object[key].value = value;
+                        if (!object._timeout) {
+                            object._timeout = setTimeout(() => {
+                                object._timeout = null;
+                                setCounter(counter + 1);
+                            });
+                        }
+                    };
+                    object[key] = { prev: currentValue, value: currentValue, setValue, context: [currentValue, setValue, { key }] };
+                }
+            }
+            let values: any = {};
+            for (let key in fields) {
+                values[key] = object[key].context;
+            }
+            return values;
+        };
+        component.Fields = ({ value, children }: { value: any, children: any }) => {
+            const fields = value;
+            let keys = Object.keys(fields);
+            let iterate = (index: number): any => {
+                let key = keys[index++];
+                if (key.startsWith("_")) {
+                    key = keys[index++];
+                }
+                if (index >= keys.length) {
+                    return children;
+                }
+                let value = fields[key][0];
+                return React.createElement(component[key].Provider, { value }, iterate(index));
+            };
+            let result = iterate(0);
+            return result;
+        };
     };
     this.classes = function (classes: any) {
         let string = "";
