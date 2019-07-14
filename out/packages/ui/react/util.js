@@ -47,7 +47,7 @@ screens_js_1.default.ReactUtil.init = function () {
                 for (let key in defaults) {
                     if (object[key].prev !== object[key].value) {
                         let value = object[key].prev = object[key].value;
-                        object[key].context = [value, object[key].setValue, { key }];
+                        object[key].context = [value, object[key].setValue, { key, value, counter }];
                     }
                 }
             }
@@ -70,7 +70,7 @@ screens_js_1.default.ReactUtil.init = function () {
                             });
                         }
                     };
-                    object[key] = { prev: currentValue, value: currentValue, setValue, context: [currentValue, setValue, { key }] };
+                    object[key] = { prev: currentValue, value: currentValue, setValue, context: [currentValue, setValue, { key, value: currentValue, counter }] };
                 }
             }
             let values = {};

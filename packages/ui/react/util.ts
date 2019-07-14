@@ -38,7 +38,7 @@ screens.ReactUtil.init = function () {
                 for (let key in defaults) {
                     if (object[key].prev !== object[key].value) {
                         let value = object[key].prev = object[key].value;
-                        object[key].context = [value, object[key].setValue, { key }];
+                        object[key].context = [value, object[key].setValue, { key, value, counter }];
                     }
                 }
             }
@@ -61,7 +61,7 @@ screens.ReactUtil.init = function () {
                             });
                         }
                     };
-                    object[key] = { prev: currentValue, value: currentValue, setValue, context: [currentValue, setValue, { key }] };
+                    object[key] = { prev: currentValue, value: currentValue, setValue, context: [currentValue, setValue, { key, value: currentValue, counter }] };
                 }
             }
             let values: any = {};
@@ -75,13 +75,16 @@ screens.ReactUtil.init = function () {
             let keys = Object.keys(fields);
             let iterate = (index: number): any => {
                 let key = keys[index++];
+                if (index > keys.length) {
+                    return children;
+                }
                 if (key.startsWith("_")) {
                     key = keys[index++];
                 }
-                if (index >= keys.length) {
+                if (index > keys.length) {
                     return children;
                 }
-                let value = fields[key][0];
+                let value = fields[key];
                 return React.createElement(component[key].Provider, { value }, iterate(index));
             };
             let result = iterate(0);
