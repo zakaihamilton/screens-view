@@ -32,13 +32,14 @@ screens.ReactUtil.init = function () {
         }
         component.fields = (defaults: any): any => {
             const ref: any = useRef(null);
-            const [counter, setCounter] = useState(0);
+            const [counter, setCounter] = useState(1);
             let object: any = ref.current;
             if (object) {
                 for (let key in defaults) {
                     if (object[key].prev !== object[key].value) {
                         let value = object[key].prev = object[key].value;
-                        object[key].context = [value, object[key].setValue, { key, value, counter }];
+                        object[key].counter = counter;
+                        object[key].context = [value, object[key].setValue, { key, value }];
                     }
                 }
             }
@@ -57,11 +58,12 @@ screens.ReactUtil.init = function () {
                         if (!object._timeout) {
                             object._timeout = setTimeout(() => {
                                 object._timeout = null;
-                                setCounter(counter + 1);
+                                let currentCounter = (object[key].counter || 0);
+                                setCounter(currentCounter + 1);
                             });
                         }
                     };
-                    object[key] = { prev: currentValue, value: currentValue, setValue, context: [currentValue, setValue, { key, value: currentValue, counter }] };
+                    object[key] = { prev: currentValue, value: currentValue, setValue, counter, context: [currentValue, setValue, { key, value: currentValue }] };
                 }
             }
             let values: any = {};
