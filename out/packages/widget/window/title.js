@@ -30,6 +30,8 @@ screens_js_1.default.WidgetWindowTitle.Maximize = function ({ state, label }) {
     let [isMaximized, maximize, obj] = react_1.useContext(screens_js_1.default.WidgetWindow.maximize);
     let classes = ReactUtil.classes({ "widget-window-title-maximize": true, "maximize": isMaximized });
     let title = isMaximized ? "Restore" : "Maximize";
-    console.log("title: " + title + " isMaximized:" + isMaximized + " obj: " + JSON.stringify(obj));
-    return (react_1.default.createElement("div", { className: classes, title: title, onClick: () => maximize(!isMaximized) }, label));
+    console.log("title: " + title + " isMaximized:" + isMaximized);
+    return (react_1.default.createElement("div", { className: classes, title: title, onClick: () => {
+            maximize(!isMaximized);
+        } }, label));
 };

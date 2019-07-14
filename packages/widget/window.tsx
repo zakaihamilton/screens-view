@@ -1,9 +1,9 @@
 import screens from "screens-js"
 import React from 'react';
 
-screens.WidgetWindow = function ({ title, restore, children }: { title: string, restore: boolean, children: any }) {
+screens.WidgetWindow = function ({ id, title, restore, children }: { id: string, title: string, restore: boolean, children: any }) {
     const { WidgetWindow, WidgetWindowTitle, WidgetWindowContent, ReactUtil } = screens;
-    let fields = WidgetWindow.fields({ maximize: !restore, title });
+    let fields = WidgetWindow.fields({ id, maximize: !restore, title });
     let classes = ReactUtil.classes({ "widget-window": true, "maximize": fields.maximize[0] });
     return (
         <WidgetWindow.Fields value={fields}>

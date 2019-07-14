@@ -1,5 +1,5 @@
 import screens from "screens-js"
-import React, { useState, useRef, Children } from 'react';
+import React, { useState, useRef, Children, useEffect } from 'react';
 
 screens.ReactUtil = function () {
 
@@ -26,6 +26,7 @@ screens.ReactUtil.init = function () {
         return fields;
     };
     this.createFields = function (component: any, fields: any) {
+        component.ids = {};
         for (let key in fields) {
             let defaultValue = fields[key];
             component[key] = React.createContext(defaultValue);
@@ -36,11 +37,16 @@ screens.ReactUtil.init = function () {
             let object: any = ref.current;
             if (object) {
                 for (let key in defaults) {
+                    if (!(key in object)) {
+                        continue;
+                    }
+                    let currentCounter = (object[key].counter || 0);
                     if (object[key].prev !== object[key].value) {
                         let value = object[key].prev = object[key].value;
-                        object[key].counter = counter;
-                        object[key].context = [value, object[key].setValue, { key, value }];
+                        object[key].counter = currentCounter;
+                        object[key].context = [value, object[key].setValue, currentCounter];
                     }
+                    console.log("key: " + key + " value: " + object[key].value + " counter: " + currentCounter);
                 }
             }
             else {
@@ -55,21 +61,37 @@ screens.ReactUtil.init = function () {
                             return;
                         }
                         object[key].value = value;
+                        console.log("changed value to: " + value);
                         if (!object._timeout) {
                             object._timeout = setTimeout(() => {
                                 object._timeout = null;
                                 let currentCounter = (object[key].counter || 0);
-                                setCounter(currentCounter + 1);
+                                object[key].counter = currentCounter + 1;
+                                setCounter(currentCounter);
                             });
                         }
                     };
-                    object[key] = { prev: currentValue, value: currentValue, setValue, counter, context: [currentValue, setValue, { key, value: currentValue }] };
+                    object[key] = { prev: currentValue, value: currentValue, setValue, counter, context: [currentValue, setValue, counter] };
                 }
             }
             let values: any = {};
             for (let key in fields) {
                 values[key] = object[key].context;
             }
+            useEffect(() => {
+                let id = defaults.id;
+                if (id) {
+                    component.ids[id] = values;
+                }
+            });
+            useEffect(() => {
+                let id = defaults.id;
+                if (id) {
+                    return () => {
+                        delete component.ids[id];
+                    };
+                }
+            }, []);
             return values;
         };
         component.Fields = ({ value, children }: { value: any, children: any }) => {
