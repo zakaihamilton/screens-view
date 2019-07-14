@@ -1,13 +1,15 @@
 import screens from "screens-js"
-import React from 'react';
+import React, { useContext } from 'react';
 
 screens.WidgetWindow = function ({ id, title, restore, children }: { id: string, title: string, restore: boolean, children: any }) {
-    const { WidgetWindow, WidgetWindowTitle, WidgetWindowContent, ReactUtil } = screens;
-    let fields = WidgetWindow.fields({ id, maximize: !restore, title });
-    let classes = ReactUtil.classes({ "widget-window": true, "maximize": fields.maximize[0] });
+    const { WidgetWindow, WidgetWindowTitle, WidgetWindowContent, UIReact } = screens;
+    let [focusId, setFocusId] = useContext(screens.UIFocus.focusId);
+    let { UIElement } = UIReact.useObject().me;
+    let fields = WidgetWindow.useFields({ id, maximize: !restore, title });
+    let classes = UIReact.classes({ "widget-window": true, "maximize": fields.maximize[0] });
     return (
         <WidgetWindow.Fields value={fields}>
-            <div className={classes}>
+            <div ref={UIElement.ref} onClick={() => setFocusId(id)} className={classes}>
                 <WidgetWindowTitle></WidgetWindowTitle>
                 <WidgetWindowContent>{children}</WidgetWindowContent>
             </div>
@@ -16,8 +18,8 @@ screens.WidgetWindow = function ({ id, title, restore, children }: { id: string,
 };
 
 screens.WidgetWindow.init = function () {
-    const { ReactUtil } = screens;
-    ReactUtil.createFields(this, {
+    const { UIReact } = screens;
+    UIReact.createFields(this, {
         maximize: true,
         title: ""
     });

@@ -1,11 +1,26 @@
 import screens from "screens-js"
 import React, { useState, useRef, Children, useEffect } from 'react';
 
-screens.ReactUtil = function () {
+screens.UIReact = function () {
 
 };
 
-screens.ReactUtil.init = function () {
+screens.UIReact.static = function () {
+    this.useObject = function () {
+        let ref: any = useRef(null);
+        let object: any = ref.current;
+        if (!object) {
+            object = ref.current = {};
+            screens.objectify(object, "UIReact");
+        }
+        useEffect(() => {
+            return () => {
+                object.me.CoreObject.destroy();
+            };
+        }, []);
+        object.me.CoreListener.notify("UIReact", "render");
+        return object;
+    };
     this.useState = function (defaults: any) {
         let [getter, setter] = useState(defaults);
         let fields = {};
@@ -25,18 +40,19 @@ screens.ReactUtil.init = function () {
         }
         return fields;
     };
-    this.createFields = function (component: any, fields: any) {
+    this.createFields = function (component: any, defaultValues: any) {
         component.ids = {};
-        for (let key in fields) {
-            let defaultValue = fields[key];
+        for (let key in defaultValues) {
+            let defaultValue = defaultValues[key];
             component[key] = React.createContext(defaultValue);
         }
-        component.fields = (defaults: any): any => {
+        component.useFields = (defaults: any): any => {
+            let fields = Object.assign({}, defaultValues, defaults);
             const ref: any = useRef(null);
             const [counter, setCounter] = useState(1);
             let object: any = ref.current;
             if (object) {
-                for (let key in defaults) {
+                for (let key in fields) {
                     if (!(key in object)) {
                         continue;
                     }
@@ -52,10 +68,10 @@ screens.ReactUtil.init = function () {
             else {
                 ref.current = object = {};
                 for (let key in fields) {
-                    let currentValue = defaults[key];
-                    if (typeof currentValue === "undefined") {
-                        currentValue = fields[key];
+                    if (!(key in component)) {
+                        component[key] = React.createContext(fields[key]);
                     }
+                    let currentValue = fields[key];
                     const setValue = (value: any) => {
                         if (Object.is(object[key].value, value)) {
                             return;
@@ -76,16 +92,18 @@ screens.ReactUtil.init = function () {
             }
             let values: any = {};
             for (let key in fields) {
-                values[key] = object[key].context;
+                if (key in object) {
+                    values[key] = object[key].context;
+                }
             }
             useEffect(() => {
-                let id = defaults.id;
+                let id = fields.id;
                 if (id) {
                     component.ids[id] = values;
                 }
             });
             useEffect(() => {
-                let id = defaults.id;
+                let id = fields.id;
                 if (id) {
                     return () => {
                         delete component.ids[id];

@@ -7,10 +7,25 @@
 }
 
 .widget-window.maximize {
+    flex: 0;
     border: none;
     position: absolute;
     left: 0px;
     top: 0px;
     right: 0px;
     bottom: 0px;
+}
+
+#react {
+    display: flex;
+    flex-direction: column;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
 }

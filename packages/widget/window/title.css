@@ -1,12 +1,17 @@
 .widget-window-title {
     display: flex;
     border-bottom: 1px solid black;
-    background-color: black;
-    color: lightgray;
+    background-color: lightgray;
+    color: black;
     justify-content: stretch;
     align-content: stretch;
     align-items: center;
     padding-left: 10px;
+}
+
+.widget-window-title.focus {
+    color: white;
+    background-color: black;
 }
 
 .widget-window-title-label {
@@ -15,6 +20,9 @@
     font-family: 'Roboto', sans-serif;
     font-size: 18px;
     user-select: none;
+}
+
+.widget-window-title-label.focus {
     font-weight: bold;
 }
 
@@ -30,6 +38,11 @@
     background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgZmlsbD0ibm9uZSIgaGVpZ2h0PSIyNCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMiIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTggM0g1YTIgMiAwIDAgMC0yIDJ2M20xOCAwVjVhMiAyIDAgMCAwLTItMmgtM20wIDE4aDNhMiAyIDAgMCAwIDItMnYtM00zIDE2djNhMiAyIDAgMCAwIDIgMmgzIi8+PC9zdmc+');
     background-repeat: no-repeat;
     background-position: center;
+    filter: invert(0%);
+}
+
+.widget-window-title-maximize.focus {
+    background-color: white;
     filter: invert(100%);
 }
 
@@ -38,6 +51,11 @@
 }
 
 .widget-window-title-maximize:hover {
+    background-color: white;
+    filter: invert(100%);
+}
+
+.widget-window-title-maximize.focus:hover {
     background-color: white;
     filter: invert(0%);
 }

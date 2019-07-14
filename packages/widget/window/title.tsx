@@ -2,9 +2,15 @@ import screens from "screens-js"
 import React, { useContext } from 'react';
 
 screens.WidgetWindowTitle = function ({ label, state }: { label: string, state: any }) {
-    const { WidgetWindowTitle } = screens;
+    const { WidgetWindowTitle, UIReact } = screens;
+    let [focusId] = useContext(screens.UIFocus.focusId);
+    let [windowId] = useContext(screens.WidgetWindow.id);
+    let classes = UIReact.classes({
+        "widget-window-title": true,
+        "focus": focusId === windowId
+    });
     return (
-        <div className="widget-window-title">
+        <div className={classes}>
             <WidgetWindowTitle.Label></WidgetWindowTitle.Label>
             <WidgetWindowTitle.Maximize></WidgetWindowTitle.Maximize>
         </div>
@@ -12,10 +18,16 @@ screens.WidgetWindowTitle = function ({ label, state }: { label: string, state: 
 };
 
 screens.WidgetWindowTitle.Label = function () {
-    const { ReactUtil } = screens;
-    let [isMaximized, maximize] = useContext(screens.WidgetWindow.maximize);
+    const { UIReact } = screens;
+    let [isMaximized] = useContext(screens.WidgetWindow.maximize);
+    let [focusId] = useContext(screens.UIFocus.focusId);
+    let [windowId] = useContext(screens.WidgetWindow.id);
     let [title] = useContext(screens.WidgetWindow.title);
-    let classes = ReactUtil.classes({ "widget-window-title-label": true, "maximize": isMaximized });
+    let classes = UIReact.classes({
+        "widget-window-title-label": true,
+        "maximize": isMaximized,
+        "focus": focusId === windowId
+    });
     return (
         <div className={classes}>
             {title}
@@ -24,11 +36,16 @@ screens.WidgetWindowTitle.Label = function () {
 };
 
 screens.WidgetWindowTitle.Maximize = function ({ state, label }: { label: string, state: any }) {
-    const { ReactUtil } = screens;
-    let [isMaximized, maximize, obj] = useContext(screens.WidgetWindow.maximize);
-    let classes = ReactUtil.classes({ "widget-window-title-maximize": true, "maximize": isMaximized });
+    const { UIReact } = screens;
+    let [isMaximized, maximize] = useContext(screens.WidgetWindow.maximize);
+    let [focusId] = useContext(screens.UIFocus.focusId);
+    let [windowId] = useContext(screens.WidgetWindow.id);
+    let classes = UIReact.classes({
+        "widget-window-title-maximize": true,
+        "maximize": isMaximized,
+        "focus": focusId === windowId
+    });
     let title = isMaximized ? "Restore" : "Maximize";
-    console.log("title: " + title + " isMaximized:" + isMaximized);
     return (
         <div className={classes} title={title} onClick={() => {
             maximize(!isMaximized)

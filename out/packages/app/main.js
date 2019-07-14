@@ -13,15 +13,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const screens_js_1 = __importDefault(require("screens-js"));
 const react_1 = __importStar(require("react"));
 screens_js_1.default.AppMain = function () {
-    let { WidgetWindow, WidgetButton } = screens_js_1.default;
+    let { WidgetWindow, WidgetButton, UIFocus } = screens_js_1.default;
     let [counter, setCounter] = react_1.useState(0);
-    return (react_1.default.createElement(react_1.default.Fragment, null,
+    return (react_1.default.createElement(UIFocus, { focusId: "WindowB" },
         react_1.default.createElement(WidgetWindow, { id: "WindowA", title: "This is the title" },
             react_1.default.createElement(WidgetButton, { label: "Button text" })),
-        react_1.default.createElement(WidgetButton, { onClick: () => {
-                let { WindowA } = screens_js_1.default.WidgetWindow.ids;
-                let [title, setTitle] = WindowA.title;
-                setCounter(counter + 1);
-                setTitle("The window counter is: " + counter);
-            }, label: "Maximize Window" })));
+        react_1.default.createElement(WidgetWindow, { id: "WindowB", title: "Second Window" },
+            react_1.default.createElement(WidgetButton, { onClick: () => {
+                    let { WindowA } = screens_js_1.default.WidgetWindow.ids;
+                    let [title, setTitle] = WindowA.title;
+                    let [isMaximized, maximize] = WindowA.maximize;
+                    setCounter(counter + 1);
+                    setTitle("The window counter is: " + counter);
+                    maximize(!isMaximized);
+                }, label: "Maximize Window" }))));
 };
