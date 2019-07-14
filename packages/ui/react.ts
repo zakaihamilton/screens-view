@@ -21,25 +21,6 @@ screens.UIReact.static = function () {
         object.me.CoreListener.notify("UIReact", "render");
         return object;
     };
-    this.useState = function (defaults: any) {
-        let [getter, setter] = useState(defaults);
-        let fields = {};
-        for (let key in defaults) {
-            Object.defineProperty(fields, key, {
-                get() {
-                    return getter[key];
-                },
-                set(value: any) {
-                    setter((prev: any) => {
-                        let changed = Object.assign({}, prev);
-                        changed[key] = value;
-                        return changed;
-                    });
-                }
-            })
-        }
-        return fields;
-    };
     this.createFields = function (component: any, defaultValues: any) {
         component.ids = {};
         for (let key in defaultValues) {

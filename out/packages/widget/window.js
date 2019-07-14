@@ -17,7 +17,7 @@ screens_js_1.default.WidgetWindow = function ({ id, title, restore, children }) 
     let [focusId, setFocusId] = react_1.useContext(screens_js_1.default.UIFocus.focusId);
     let { UIElement } = UIReact.useObject().me;
     let fields = WidgetWindow.useFields({ id, maximize: !restore, title });
-    let classes = UIReact.classes({ "widget-window": true, "maximize": fields.maximize[0] });
+    let classes = UIReact.classes({ "widget-window": true, "maximize": fields.maximize[0], "focus": focusId === id });
     return (react_1.default.createElement(WidgetWindow.Fields, { value: fields },
         react_1.default.createElement("div", { ref: UIElement.ref, onClick: () => setFocusId(id), className: classes },
             react_1.default.createElement(WidgetWindowTitle, null),

@@ -6,7 +6,7 @@ screens.WidgetWindow = function ({ id, title, restore, children }: { id: string,
     let [focusId, setFocusId] = useContext(screens.UIFocus.focusId);
     let { UIElement } = UIReact.useObject().me;
     let fields = WidgetWindow.useFields({ id, maximize: !restore, title });
-    let classes = UIReact.classes({ "widget-window": true, "maximize": fields.maximize[0] });
+    let classes = UIReact.classes({ "widget-window": true, "maximize": fields.maximize[0], "focus": focusId === id });
     return (
         <WidgetWindow.Fields value={fields}>
             <div ref={UIElement.ref} onClick={() => setFocusId(id)} className={classes}>
