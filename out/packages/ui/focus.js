@@ -7,12 +7,20 @@ const screens_js_1 = __importDefault(require("screens-js"));
 const react_1 = __importDefault(require("react"));
 screens_js_1.default.UIFocus = function ({ focusId, children }) {
     const { UIFocus } = screens_js_1.default;
+    UIFocus.me.CoreListener.register(UIFocus.name, "focusId", (state) => {
+        state.order = state.order.filter((id) => id !== state.focusId);
+        state.order.push(state.focusId);
+    });
     let fields = UIFocus.useFields({ focusId });
-    return (react_1.default.createElement(UIFocus.Fields, { value: fields }, children));
+    let elements = react_1.default.Children.toArray(children).map((element, index) => {
+        return react_1.default.cloneElement(element, { index });
+    });
+    return (react_1.default.createElement(UIFocus.Fields, { value: fields }, elements));
 };
 screens_js_1.default.UIFocus.init = function () {
     const { UIReact } = screens_js_1.default;
     UIReact.createFields(this, {
-        focusId: ""
+        focusId: "",
+        order: []
     });
 };

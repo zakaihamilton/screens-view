@@ -37,7 +37,7 @@ screens_js_1.default.UIReact.static = function () {
             component[key].displayName = component.name + "." + key;
         }
         component.useFields = (defaults) => {
-            const [state, setState] = react_1.useState(defaults);
+            const [state, setState] = react_1.useState(Object.assign({}, fields, defaults));
             let [callbacks, setCallbacks] = react_1.useState(null);
             if (!callbacks) {
                 callbacks = {};
@@ -47,7 +47,7 @@ screens_js_1.default.UIReact.static = function () {
                             return;
                         }
                         state[key] = value;
-                        console.log("changed " + key + " value to: " + value);
+                        component.me.CoreListener.notify(component.name, key, state);
                         if (!state._timeout) {
                             state._timeout = setTimeout(() => {
                                 state._timeout = null;
@@ -96,6 +96,9 @@ screens_js_1.default.UIReact.static = function () {
                     }
                 }
                 let value = fields[key];
+                if (!(key in component)) {
+                    throw key + " in " + component.name + " is not defined in createFields";
+                }
                 return react_1.default.createElement(component[key].Provider, { value }, iterate(index));
             };
             let result = iterate(0);
