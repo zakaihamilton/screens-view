@@ -21,7 +21,6 @@ screens_js_1.default.WidgetWindow = function ({ id, index, title, restore, child
     let classes = UIReact.classes({ "widget-window": true, "maximize": fields.maximize[0], "focus": focusId === id });
     let focusIndex = focusOrder.findIndex((item) => item === id);
     if (focusIndex !== -1) {
-        console.log("using index: " + focusIndex + " instead of: " + index);
         index = focusIndex;
     }
     let styles = {
