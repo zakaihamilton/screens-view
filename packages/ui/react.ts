@@ -21,70 +21,49 @@ screens.UIReact.static = function () {
         object.me.CoreListener.notify("UIReact", "render");
         return object;
     };
-    this.createFields = function (component: any, defaultValues: any) {
+    this.createFields = function (component: any, fields: any) {
         component.ids = {};
-        for (let key in defaultValues) {
-            let defaultValue = defaultValues[key];
-            component[key] = React.createContext(defaultValue);
+        for (let key in fields) {
+            component[key] = React.createContext(fields[key]);
+            component[key].displayName = component.name + "." + key;
         }
         component.useFields = (defaults: any): any => {
-            let fields = Object.assign({}, defaultValues, defaults);
-            const ref: any = useRef(null);
-            const [counter, setCounter] = useState(1);
-            let object: any = ref.current;
-            if (object) {
+            const [state, setState] = useState(defaults);
+            let [callbacks, setCallbacks]: [any, any] = useState(null);
+            if (!callbacks) {
+                callbacks = {};
                 for (let key in fields) {
-                    if (!(key in object)) {
-                        continue;
-                    }
-                    let currentCounter = (object[key].counter || 0);
-                    if (object[key].prev !== object[key].value) {
-                        let value = object[key].prev = object[key].value;
-                        object[key].counter = currentCounter;
-                        object[key].context = [value, object[key].setValue, currentCounter];
-                    }
-                    console.log("key: " + key + " value: " + object[key].value + " counter: " + currentCounter);
-                }
-            }
-            else {
-                ref.current = object = {};
-                for (let key in fields) {
-                    if (!(key in component)) {
-                        component[key] = React.createContext(fields[key]);
-                    }
-                    let currentValue = fields[key];
-                    const setValue = (value: any) => {
-                        if (Object.is(object[key].value, value)) {
+                    callbacks[key] = (value: any) => {
+                        if (Object.is(state[key], value)) {
                             return;
                         }
-                        object[key].value = value;
-                        console.log("changed value to: " + value);
-                        if (!object._timeout) {
-                            object._timeout = setTimeout(() => {
-                                object._timeout = null;
-                                let currentCounter = (object[key].counter || 0);
-                                object[key].counter = currentCounter + 1;
-                                setCounter(currentCounter);
+                        state[key] = value;
+                        console.log("changed " + key + " value to: " + value);
+                        if (!state._timeout) {
+                            state._timeout = setTimeout(() => {
+                                state._timeout = null;
+                                let currentCounter = (state[key]._counter || 0);
+                                let counter = currentCounter + 1;
+                                setState(Object.assign({}, state, { _counter: counter }));
                             });
                         }
                     };
-                    object[key] = { prev: currentValue, value: currentValue, setValue, counter, context: [currentValue, setValue, counter] };
                 }
+                setCallbacks(callbacks);
             }
             let values: any = {};
-            for (let key in fields) {
-                if (key in object) {
-                    values[key] = object[key].context;
-                }
+            for (let key in state) {
+                const method = (callbacks as any)[key];
+                values[key] = [state[key], method];
             }
             useEffect(() => {
-                let id = fields.id;
+                let id = state.id;
                 if (id) {
                     component.ids[id] = values;
                 }
             });
             useEffect(() => {
-                let id = fields.id;
+                let id = state.id;
                 if (id) {
                     return () => {
                         delete component.ids[id];
@@ -101,11 +80,11 @@ screens.UIReact.static = function () {
                 if (index > keys.length) {
                     return children;
                 }
-                if (key.startsWith("_")) {
+                while (key.startsWith("_")) {
                     key = keys[index++];
-                }
-                if (index > keys.length) {
-                    return children;
+                    if (index > keys.length) {
+                        return children;
+                    }
                 }
                 let value = fields[key];
                 return React.createElement(component[key].Provider, { value }, iterate(index));
@@ -113,6 +92,7 @@ screens.UIReact.static = function () {
             let result = iterate(0);
             return result;
         };
+        component.Fields.displayName = component.name + ".Fields";
     };
     this.classes = function (classes: any) {
         let string = "";

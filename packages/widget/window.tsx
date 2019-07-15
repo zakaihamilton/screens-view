@@ -7,6 +7,7 @@ screens.WidgetWindow = function ({ id, title, restore, children }: { id: string,
     let { UIElement } = UIReact.useObject().me;
     let fields = WidgetWindow.useFields({ id, maximize: !restore, title });
     let classes = UIReact.classes({ "widget-window": true, "maximize": fields.maximize[0], "focus": focusId === id });
+    console.log("Rendering: WidgetWindow id: " + id);
     return (
         <WidgetWindow.Fields value={fields}>
             <div ref={UIElement.ref} onClick={() => setFocusId(id)} className={classes}>
@@ -21,6 +22,7 @@ screens.WidgetWindow.init = function () {
     const { UIReact } = screens;
     UIReact.createFields(this, {
         maximize: true,
-        title: ""
+        title: "",
+        id: null
     });
 };
