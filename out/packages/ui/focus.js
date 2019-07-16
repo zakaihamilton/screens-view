@@ -18,8 +18,8 @@ screens_js_1.default.UIFocus = function ({ focusId, children }) {
     return (react_1.default.createElement(UIFocus.Fields, { value: fields }, elements));
 };
 screens_js_1.default.UIFocus.init = function () {
-    const { UIReact } = screens_js_1.default;
-    UIReact.createFields(this, {
+    const { UIField } = screens_js_1.default;
+    UIField.create(this, {
         focusId: "",
         order: []
     });

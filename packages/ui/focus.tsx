@@ -15,8 +15,8 @@ screens.UIFocus = function ({ focusId, children }: { focusId: string, children: 
 };
 
 screens.UIFocus.init = function () {
-    const { UIReact } = screens;
-    UIReact.createFields(this, {
+    const { UIField } = screens;
+    UIField.create(this, {
         focusId: "",
         order: []
     });
